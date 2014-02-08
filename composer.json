@@ -1,7 +1,7 @@
 {
     "name": "mickrip/fwoot",
     "type": "library",
-    "description": "Simple Brained MVC",
+    "description": "Simple Brained MVC.",
     "keywords": ["framework"],
     "homepage": "",
     "license": "MIT",
