@@ -1,5 +1,5 @@
 {
-    "name": "mickrip/fwoot",
+    "name": "mickrip/fwoot-core",
     "type": "library",
     "description": "Simple Brained MVC.",
     "keywords": ["framework"],
