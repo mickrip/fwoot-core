@@ -1,3 +1,3 @@
-Fw00t Framework
+Fw00t Framework Core Classes
 ====
-Simple MVC for Simple Brains like mine.
+All core classes for the Fwoot Framework
