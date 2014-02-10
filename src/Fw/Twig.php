@@ -1,6 +1,13 @@
 <?php
 namespace Fw;
 
+/**
+ *
+ * Twig Helper
+ *
+ * Class Twig
+ * @package Fw
+ */
 class Twig
 {
 	var $data = array();

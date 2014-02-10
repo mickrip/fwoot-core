@@ -1,7 +1,5 @@
 <?php
 namespace Fw\Model;
-
-
 use \Fw\Db as Db;
 
 abstract class Entity
@@ -125,7 +123,6 @@ abstract class Entity
 	{
 
 		$this->get_fields();
-		//var_dump($this->_field_list);
 		$arr = array();
 		$query = "update " . $this->_table . " set ";
 		foreach ($this->_field_list as $v) {

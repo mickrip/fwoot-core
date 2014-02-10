@@ -40,9 +40,6 @@ class Framework
 			include($app_path . "/vendor/autoload.php");
 		}
 
-		// Please comment this properly because it could be obsolete
-		//\Fw\Find::add_path_to("classes", $app_path . "classes" . DS);
-
 		// Configuration
 		\Fw\Config::set("docroot", DOCROOT); // doc root
 		\Fw\Config::set("apppath", $app_path); // application path
