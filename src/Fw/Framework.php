@@ -18,7 +18,12 @@ class Framework
 		};
 		\Fw\Config::set("base", $_base());
 		$_SERVER["HTTPS"] = (isset($_SERVER["HTTPS"])) ? $_SERVER["HTTPS"] : "off";
-		\Fw\Config::set("domain", (@$_SERVER["HTTPS"] == "on") ? "https://" . $_SERVER["SERVER_NAME"] : "http://" . $_SERVER["SERVER_NAME"]);
+
+		if (isset($_SERVER["SERVER_NAME"])) {
+			\Fw\Config::set("domain", (@$_SERVER["HTTPS"] == "on") ? "https://" . $_SERVER["SERVER_NAME"] : "http://" . $_SERVER["SERVER_NAME"]);
+		}else{
+			\Fw\Config::set("domain","");
+		}
 
 		// Set Application Directory to server path
 		if (!Config::exists("apppath")) {
