@@ -1,5 +1,6 @@
 <?php
 namespace Fw\Model;
+
 use \Fw\Db as Db;
 
 abstract class Entity
@@ -77,6 +78,7 @@ abstract class Entity
 
 	}
 
+
 	function fetchAll($query, $arr = array())
 	{
 		$q = \Fw\Db::prepare($query);
@@ -92,6 +94,13 @@ abstract class Entity
 		return $q->fetchObject($this->_entity);
 
 	}
+
+	function q($query, $arr = array())
+	{
+		$q = Db::prepare($query);
+		$q->execute($arr);
+	}
+
 
 	function create($debug = '')
 	{

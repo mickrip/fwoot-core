@@ -95,6 +95,18 @@ abstract class Query
 	}
 
 	/**
+	 * @param $query
+	 * @param array $arr
+	 *
+	 */
+
+	function q($query, $arr = array())
+	{
+		$q = Db::prepare($query);
+		$q->execute($arr);
+	}
+
+	/**
 	 *
 	 */
 
