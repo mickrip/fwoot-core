@@ -9,6 +9,7 @@ abstract class Entity
 	var $_pk = "";
 	var $_field_list = array();
 	static $_table_cache = array();
+	static $_cache = array();
 
 	function get_fields()
 	{
@@ -144,6 +145,16 @@ abstract class Entity
 		$p->execute($arr);
 
 
+	}
+
+	function cache_set($ident, $key, $result)
+	{
+		self::$_cache[$ident][$key] = $result;
+	}
+
+	function cache_get($ident, $key)
+	{
+		return (isset(self::$_cache[$ident][$key])) ? self::$_cache[$ident][$key] : null;
 	}
 
 	function delete()
