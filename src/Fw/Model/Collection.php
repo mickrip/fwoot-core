@@ -113,6 +113,17 @@ abstract class Collection
 	}
 
 
+	function cache_set($ident, $key, $result)
+	{
+		self::$_cache[$ident][$key] = $result;
+	}
+
+	function cache_get($ident, $key)
+	{
+		return (isset(self::$_cache[$ident][$key])) ? self::$_cache[$ident][$key] : null;
+	}
+
+
 	/**
 	 * @param $arr
 	 *
