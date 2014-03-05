@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Session\Session as Sesh;
  *
  * @package Fw
  */
-
 class Controller
 {
 
@@ -47,8 +46,8 @@ class Controller
 
 	private static function er($msg)
 	{
-		if (\Fw\Config::get("env") == \Fw\Config::PRODUCTION) return false;
 		_404($msg);
+		die();
 	}
 
 	/**
@@ -68,18 +67,24 @@ class Controller
 	static function load($controller, $action = '', $params = array())
 	{
 
-
 		$class_name = ucfirst($controller);
 		$method = $action;
 		$tc = "Controller\\" . $class_name;
 		if (!class_exists($tc)) return self::er("Class $tc does not exist.");
 		$this_object = new $tc($params);
 
-		if (!method_exists($this_object, $method)) return self::er("Method $method in $tc does not exist.");
+
+		if (!method_exists($this_object, $method)) {
+			return self::er("Method $method in $tc does not exist.");
+		}
+
+
 		if (!is_callable(array($this_object, $method))) return self::er("Method $method in $tc is not callable.");
 		if (is_callable(array($this_object, "__before"))) {
 			call_user_func(array($this_object, "__before"));
 		}
+
+
 		call_user_func(array($this_object, $method));
 
 		if (is_callable(array($this_object, "__after"))) {
