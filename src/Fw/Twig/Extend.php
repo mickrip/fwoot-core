@@ -34,7 +34,11 @@ class Extend
 
 	function asset($file, $from_prefix_config = "cdn")
 	{
-		return \Fw\Bundler::find($file, $from_prefix_config);
+		if ($this->asset_version) {
+			return \Fw\Bundler::find($file, $from_prefix_config) . $this->asset_version;
+		} else {
+			return \Fw\Bundler::find($file, $from_prefix_config);
+		}
 	}
 
 	function bundle($modules)
