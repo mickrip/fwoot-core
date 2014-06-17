@@ -1,5 +1,6 @@
 {
     "name": "mickrip/fwoot-core",
+    "version": "0.0.5",
     "type": "library",
     "description": "Simple Brained MVC.",
     "keywords": ["framework"],
