@@ -8,12 +8,25 @@ class Fwouter
 
     static $error = "";
     var $routes = array();
+    static $debug = array();
 
     function __construct($request_method, $params = array())
     {
-
-        //$params = array_merge($params, array("" => "index"));
         $this->match($request_method, $params);
+    }
+
+    static function db($txt)
+    {
+        self::$debug[] = $txt;
+    }
+
+    static function show_db()
+    {
+        echo "<div style='background:#eee; margin:10px; padding:10px'>";
+        foreach (self::$debug as $row) {
+            echo "<li>" . $row . "</li>";
+        }
+        echo "</div>";
     }
 
     static function init($config = array())
@@ -21,6 +34,7 @@ class Fwouter
 
         // set up Config
         $base = (isset($config["base"])) ? trim($config["base"], "/") : "";
+        self::db("base url is '$base'");
 
         // set up defaults
         $default_class = "Index";
@@ -28,6 +42,7 @@ class Fwouter
 
         // get request method
         $request_method = $_SERVER['REQUEST_METHOD'];
+        self::db("request method is '$request_method'");
 
         // set request Url if it isn't passed as parameter
         $request_url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/' . $default_class;
@@ -47,6 +62,7 @@ class Fwouter
         if (($strpos = strpos($request_url, '?')) !== false) {
             $request_url = substr($request_url, 0, $strpos);
         }
+        self::db("request url (after filtering) is '$request_url'");
 
         // split up into array
         $params = array_filter(explode("/", $request_url));
@@ -66,6 +82,7 @@ class Fwouter
         do {
             $class_name = $base_namespace . implode("\\", array_slice($params, 0, $start));
             $debug = $debug . $class_name . ", \n";
+            self::db("looking for class: $class_name");
             $start--;
         } while (!class_exists($class_name) && $start != 0);
 
@@ -73,6 +90,7 @@ class Fwouter
         if (!class_exists($class_name)) {
             // then look for the index route, and throw it into that.
             if (class_exists($base_namespace . $default_class)) {
+                self::db("Can't find any classes, but found " . $base_namespace . $default_class);
                 $class_name = $base_namespace . $default_class;
                 $rest_of_url = strtolower(implode("/", $params));
                 return new $class_name($request_method, $rest_of_url);
@@ -81,6 +99,7 @@ class Fwouter
                 return false;
             }
         } else {
+            self::db("Found classname: $class_name");
             $rest_of_url = strtolower(implode("/", array_slice($params, $start + 1)));
             return new $class_name($request_method, $rest_of_url);
 
@@ -90,7 +109,7 @@ class Fwouter
 
     function match($request_method, $params)
     {
-        //echo "matching ($params)";
+        self::db("Looking for a match: '$params' in this class");
 
         $tokens = array(
             ':string' => '([a-zA-Z]+)',
@@ -99,12 +118,11 @@ class Fwouter
         );
 
         foreach ((array)$this->routes as $route => $target) {
+
             $route = trim($route, "/");
-            //echo "<div > $route - > $target </div > ";
             $pattern = strtr($route, $tokens);
-            //echo 'LOOKING FOR: #^/?' . $pattern . '/?$# .. ' . "in $params";
             if (preg_match('#^/?' . $pattern . '/?$#', $params, $matches)) {
-                //echo " <h2>found $target </h2 > ";
+                self::db("SUCCESS! '$route' => '$target' is a match");
                 $matches = array_slice($matches, 1);
                 $method_name = strtolower($request_method) . "_" . $target;
                 if (method_exists($this, $method_name)) {
@@ -115,6 +133,8 @@ class Fwouter
                     return false;
                 }
                 break;
+            } else {
+                self::db("failed match: '$route' => '$target'");
             }
 
         }
