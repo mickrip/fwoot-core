@@ -118,7 +118,7 @@ class Fwouter
 		$tokens = array(
 			':string' => '([a-zA-Z]+)',
 			':number' => '([0-9]+)',
-			':alpha' => '([a-zA-Z0-9-_]+)'
+			':alpha' => '([a-zA-Z0-9-_\\S]+)'
 		);
 
 		foreach ((array)$this->routes as $route => $target) {
