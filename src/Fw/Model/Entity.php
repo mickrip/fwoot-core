@@ -100,6 +100,7 @@ abstract class Entity
 	{
 		$q = Db::prepare($query);
 		$q->execute($arr);
+		return $q;
 	}
 
 
