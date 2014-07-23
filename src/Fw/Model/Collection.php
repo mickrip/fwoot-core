@@ -99,10 +99,10 @@ abstract class Collection
 
 	function q($query, $arr = array())
 	{
-		$q = Db::prepare($query);
+		$q = \Fw\Db::prepare($query);
 		$q->execute($arr);
+		return $q;
 	}
-
 	/**
 	 *
 	 */
